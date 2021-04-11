@@ -4,11 +4,30 @@ namespace itis {
   // потом определимся с методом проталкивания модификации
 
   SegmentTree::SegmentTree(int size, int *array) {
-    // TODO тут ,наверно, и будет создаваться дерево или же отдельную функцию сделать?
+
+    size_ = size;
+    array_ = array;
+    tree_ = new int [4 * size_];
+    SegmentTree::build_tree_(0, 0, size_);
+  }
+
+  void SegmentTree::build_tree_(int vert, int lp, int rp) {
+    if (lp == rp) {
+      tree_[vert] = array_[lp];
+    } else {
+      int tm = (lp + rp) / 2;
+      SegmentTree::build_tree_(vert * 2 + 1, lp, tm); // 
+      SegmentTree::build_tree_(vert * 2 + 2, tm + 1, rp);
+      tree_[vert] = tree_[vert * 2 + 1] + tree_[vert * 2 + 2];
+    }
   }
 
   SegmentTree::~SegmentTree() {
-    // TODO деструктор
+    delete [] array_;
+    delete [] tree_;
+    array_ = nullptr;
+    tree_ = nullptr;
+    size_ = 0;
   }
 
   int SegmentTree::get_min(int l, int r) {

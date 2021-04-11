@@ -16,10 +16,11 @@ namespace itis {
     int *array_ {nullptr};
     int *tree_ {nullptr};
 
+    void build_tree_(int vert, int lp, int rp);
+
     // Tip 2: На начальном этапе разработки структуры данных можете определения методов задавать в
     // заголовочном файле, как только работа будет завершена, можно будет оставить здесь только объявления.
    public:
-
     SegmentTree(int size, int *array);
 
     ~SegmentTree();
