@@ -24,8 +24,10 @@ namespace itis {
   }
 
   SegmentTree::~SegmentTree() {
+    delete [] modification_;
     delete [] array_;
     delete [] tree_;
+    modification_ = nullptr;
     array_ = nullptr;
     tree_ = nullptr;
     size_ = 0;
@@ -35,7 +37,7 @@ namespace itis {
     if ((modification_[vert] != 0)||(vert * 2 + 1 < 4 * size_)) {
       modification_[vert * 2 + 1] = modification_[vert * 2 + 2] = modification_[vert];
       modification_[vert] = 0;
-      
+
       tree_[vert * 2 + 1] = tree_[vert * 2 + 1] * modification_[vert * 2 + 1];
       tree_[vert * 2 + 2] = tree_[vert * 2 + 2] * modification_[vert * 2 + 2];
     }
