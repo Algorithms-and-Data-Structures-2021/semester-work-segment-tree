@@ -4,7 +4,6 @@ namespace itis {
   // потом определимся с методом проталкивания модификации
 
   SegmentTree::SegmentTree(int size, int *array) {
-
     size_ = size;
     array_ = array;
     tree_ = new int [4 * size_];
@@ -34,7 +33,7 @@ namespace itis {
   }
 
   void SegmentTree::push_changes_(int vert, int lp, int rp) {
-    if ((modification_[vert] != 0)||(vert * 2 + 1 < 4 * size_)) {
+    if ((modification_[vert] != 0) || (vert * 2 + 2 < 4 * size_)) {
       modification_[vert * 2 + 1] = modification_[vert * 2 + 2] = modification_[vert];
       modification_[vert] = 0;
 
