@@ -32,13 +32,11 @@ namespace itis {
     size_ = 0;
   }
 
-  void SegmentTree::push_changes_(int vert, int lp, int rp) {
+  void SegmentTree::push_changes_(int vert) {
     if ((modification_[vert] != 0) || (vert * 2 + 2 < 4 * size_)) {
       modification_[vert * 2 + 1] = modification_[vert * 2 + 2] = modification_[vert];
+      tree_[vert] = tree_[vert] * modification_[vert];
       modification_[vert] = 0;
-
-      tree_[vert * 2 + 1] = tree_[vert * 2 + 1] * modification_[vert * 2 + 1];
-      tree_[vert * 2 + 2] = tree_[vert * 2 + 2] * modification_[vert * 2 + 2];
     }
   }
 
@@ -53,7 +51,7 @@ namespace itis {
       return;
     }
 
-    SegmentTree::push_changes_(vert, l, r);
+    SegmentTree::push_changes_(vert);
     int m = (l + r) / 2;
     SegmentTree::assign(l, m, val, vert * 2 + 1, lp, rp);
     SegmentTree::assign(m + 1, r, val, vert * 2 + 2, lp, rp);
