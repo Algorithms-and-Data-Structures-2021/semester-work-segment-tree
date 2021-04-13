@@ -8,6 +8,7 @@ namespace itis {
     size_ = size;
     array_ = array;
     tree_ = new int [4 * size_];
+    modification_ = new int [4 * size_] {};
     SegmentTree::build_tree_(0, 0, size_);
   }
 
@@ -28,6 +29,34 @@ namespace itis {
     array_ = nullptr;
     tree_ = nullptr;
     size_ = 0;
+  }
+
+  void SegmentTree::push_changes_(int vert, int lp, int rp) {
+    if ((modification_[vert] != 0)||(vert * 2 + 1 < 4 * size_)) {
+      modification_[vert * 2 + 1] = modification_[vert * 2 + 2] = modification_[vert];
+      modification_[vert] = 0;
+      
+      tree_[vert * 2 + 1] = tree_[vert * 2 + 1] * modification_[vert * 2 + 1];
+      tree_[vert * 2 + 2] = tree_[vert * 2 + 2] * modification_[vert * 2 + 2];
+    }
+  }
+
+  void SegmentTree::assign(int l, int r, int val, int vert, int lp, int rp) {
+    if (l >= lp && r <= rp) {
+      tree_[vert] = val * (rp - lp + 1);
+      modification_[vert] = val;
+      return;
+    }
+
+    if (rp < l || r < lp) {
+      return;
+    }
+
+    SegmentTree::push_changes_(vert, l, r);
+    int m = (l + r) / 2;
+    SegmentTree::assign(l, m, val, vert * 2 + 1, lp, rp);
+    SegmentTree::assign(m + 1, r, val, vert * 2 + 2, lp, rp);
+    tree_[vert] = tree_[vert * 2 + 1] + tree_[vert * 2 + 2];
   }
 
   int SegmentTree::get_min(int l, int r) {
