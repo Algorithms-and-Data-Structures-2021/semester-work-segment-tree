@@ -32,9 +32,9 @@ namespace itis {
 
     int get_max(int l, int r, int lp, int rp);
 
-    int get_sum(int l, int r, int lp, int rp);
+    int get_sum(int vert, int tl, int tr, int lp, int rp);
 
-    void update(int index, int value);
+    void update(int vert, int lp, int rp, int index, int new_value);
 
     void assign(int l, int r, int val, int vert, int lp, int rp);
 
