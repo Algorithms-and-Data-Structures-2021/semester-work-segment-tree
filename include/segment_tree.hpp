@@ -28,11 +28,11 @@ namespace itis {
 
     ~SegmentTree();
 
-    int get_min(int l, int r);
+    int get_min(int l, int r, int lp, int rp);
 
-    int get_max(int l, int r);
+    int get_max(int l, int r, int lp, int rp);
 
-    int get_sum(int l, int r);
+    int get_sum(int l, int r, int lp, int rp);
 
     void update(int index, int value);
 
