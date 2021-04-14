@@ -31,7 +31,7 @@ namespace itis {
 
     int get_sum(int vert, int tl, int tr, int lp, int rp);
 
-    void update(int index, int value);
+    void update(int vert, int lp, int rp, int index, int new_value);
 
     [[maybe_unused]] int size() const;
   };

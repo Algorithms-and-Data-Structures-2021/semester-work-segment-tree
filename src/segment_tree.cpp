@@ -52,8 +52,17 @@ namespace itis {
            get_sum(vert*2+1, mp+1, rp, max_l, r);
   }
 
-  void SegmentTree::update(int index, int value) {
-    // TODO обновление элемента
+  void SegmentTree::update(int vert, int lp, int rp, int index, int new_value) {
+    if (lp == rp)
+      tree_[vert] = new_value;
+    else {
+      int mp = (lp + rp) / 2;
+      if (index <= mp)
+        update(vert * 2, lp, mp, index, new_value);
+      else
+        update(vert * 2 + 1, mp + 1, rp, index, new_value);
+      tree_[vert] = tree_[vert * 2] + tree_[vert * 2 + 1];
+    }
   }
 
   [[maybe_unused]] int SegmentTree::size() const {
