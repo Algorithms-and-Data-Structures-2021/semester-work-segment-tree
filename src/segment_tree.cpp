@@ -40,8 +40,16 @@ namespace itis {
     // TODO получение максимума на отрезке
   }
 
-  int SegmentTree::get_sum(int l, int r) {
-    // TODO получение суммы на отрезке
+  int SegmentTree::get_sum(int vert, int lp, int rp, int l, int r) {
+    if (l > r)
+      return 0;
+    if (l == lp && r == rp)
+      return tree_[vert];
+    int mp = (lp + rp) / 2;
+    int min_r = (r < mp) ? r : mp;
+    int max_l = (l > mp+1) ? l : mp+1;
+    return get_sum(vert*2, lp, mp, l, min_r) +
+           get_sum(vert*2+1, mp+1, rp, max_l, r);
   }
 
   void SegmentTree::update(int index, int value) {
