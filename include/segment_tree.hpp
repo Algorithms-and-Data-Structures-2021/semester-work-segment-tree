@@ -15,8 +15,11 @@ namespace itis {
     int size_ {0};
     int *array_ {nullptr};
     int *tree_ {nullptr};
+    int *modification_ {nullptr};
 
     void build_tree_(int vert, int lp, int rp);
+
+    void push_changes_(int vert);
 
     // Tip 2: На начальном этапе разработки структуры данных можете определения методов задавать в
     // заголовочном файле, как только работа будет завершена, можно будет оставить здесь только объявления.
@@ -25,13 +28,15 @@ namespace itis {
 
     ~SegmentTree();
 
-    int get_min(int l, int r);
+    int get_min(int l, int r, int lp, int rp);
 
-    int get_max(int l, int r);
+    int get_max(int l, int r, int lp, int rp);
 
     int get_sum(int vert, int tl, int tr, int lp, int rp);
 
     void update(int vert, int lp, int rp, int index, int new_value);
+
+    void assign(int l, int r, int val, int vert, int lp, int rp);
 
     [[maybe_unused]] int size() const;
   };

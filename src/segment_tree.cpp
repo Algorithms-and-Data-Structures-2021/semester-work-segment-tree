@@ -4,10 +4,10 @@ namespace itis {
   // потом определимся с методом проталкивания модификации
 
   SegmentTree::SegmentTree(int size, int *array) {
-
     size_ = size;
     array_ = array;
     tree_ = new int [4 * size_];
+    modification_ = new int [4 * size_] {};
     SegmentTree::build_tree_(0, 0, size_);
   }
 
@@ -23,20 +23,54 @@ namespace itis {
   }
 
   SegmentTree::~SegmentTree() {
-    delete [] array_;
-    delete [] tree_;
-    array_ = nullptr;
-    tree_ = nullptr;
-    size_ = 0;
+    if (size_ != 0) {
+      delete[] modification_;
+      delete[] array_;
+      delete[] tree_;
+      modification_ = nullptr;
+      array_ = nullptr;
+      tree_ = nullptr;
+      size_ = 0;
+    }
   }
 
-  int SegmentTree::get_min(int l, int r) {
+  void SegmentTree::push_changes_(int vert) {
+    if ((modification_[vert] != 0) || (vert * 2 + 2 < 4 * size_)) {
+      if (modification_[vert * 2 + 1] != 0) modification_[vert * 2 + 1] *= modification_[vert];
+      else  modification_[vert * 2 + 1] = modification_[vert];
+      if (modification_[vert * 2 + 2] != 0) modification_[vert * 2 + 2] *= modification_[vert];
+      else  modification_[vert * 2 + 2] = modification_[vert];
+      
+      tree_[vert] = tree_[vert] * modification_[vert];
+      modification_[vert] = 0;
+    }
+  }
+
+  void SegmentTree::assign(int l, int r, int val, int vert, int lp, int rp) {
+    if (l >= lp && r <= rp) {
+      modification_[vert] = val;
+      SegmentTree::push_changes_(vert);
+      return;
+    }
+
+    if (rp < l || r < lp) {
+      return;
+    }
+
+    SegmentTree::push_changes_(vert);
+    int m = (l + r) / 2;
+    SegmentTree::assign(l, m, val, vert * 2 + 1, lp, rp);
+    SegmentTree::assign(m + 1, r, val, vert * 2 + 2, lp, rp);
+    tree_[vert] = tree_[vert * 2 + 1] + tree_[vert * 2 + 2];
+  }
+
+  int SegmentTree::get_min(int l, int r, int lp, int rp) {
     // TODO получение минимума на отрезке
     //  мне кажется только границ поиска достаточно,
     //  проверять не вышли ли мы за пределы можно с помощю фукции сайз и просто 0
   }
 
-  int SegmentTree::get_max(int l, int r) {
+  int SegmentTree::get_max(int l, int r, int lp, int rp) {
     // TODO получение максимума на отрезке
   }
 
