@@ -22,6 +22,27 @@ namespace itis {
     int size() const {
       return size_;
     }
+
+
+    // обертка над рекурсивной функцией поиска минимума get_min
+
+    int dec_get_min(int l, int r){
+      if (l >= 0 && r < size_ && r >= l){
+        return get_min(l, r, 1, 0, size_-1);
+      }
+      throw std::logic_error("invalid borders entered");
+    }
+
+
+    // обертка над рекурсивной функцией поиска минимума get_max
+
+    int dec_get_max(int l, int r){
+      if (l >= 0 && r < size_ && r >= l){
+        return get_min(l, r, 1, 0, size_-1);
+      }
+      throw std::logic_error('invalid borders entered');
+    }
+
   };
 
 }  // namespace itis
