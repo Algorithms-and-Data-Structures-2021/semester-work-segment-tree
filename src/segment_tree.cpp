@@ -44,7 +44,6 @@ namespace itis {
 
   void SegmentTree::assign(int l, int r, int val, int vert, int lp, int rp) {
     if (l >= lp && r <= rp) {
-      tree_[vert] = val * tree_[vert];
       modification_[vert] = val;
       SegmentTree::push_changes_(vert);
       return;
