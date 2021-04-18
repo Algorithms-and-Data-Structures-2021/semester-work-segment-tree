@@ -4,11 +4,13 @@ namespace itis {
   // потом определимся с методом проталкивания модификации
 
   SegmentTree::SegmentTree(int size, int *array) {
-    size_ = size;
-    array_ = array;
-    tree_ = new int [4 * size_];
-    modification_ = new int [4 * size_] {};
-    SegmentTree::build_tree_(0, 0, size_);
+    if (size > 0) {
+        size_ = size;
+        array_ = array;
+        tree_ = new int[4 * size_ + 2];
+        modification_ = new int[4 * size_ + 2];
+        SegmentTree::build_tree_(1, 0, size_ - 1);
+      }
   }
 
   void SegmentTree::build_tree_(int vert, int lp, int rp) {
@@ -16,14 +18,14 @@ namespace itis {
       tree_[vert] = array_[lp];
     } else {
       int tm = (lp + rp) / 2;
-      SegmentTree::build_tree_(vert * 2 + 1, lp, tm); // 
-      SegmentTree::build_tree_(vert * 2 + 2, tm + 1, rp);
-      tree_[vert] = tree_[vert * 2 + 1] + tree_[vert * 2 + 2];
+      SegmentTree::build_tree_(vert * 2, lp, tm); //
+      SegmentTree::build_tree_(vert * 2 + 1, tm + 1, rp);
+      tree_[vert] = tree_[vert * 2] + tree_[vert * 2 + 1];
     }
   }
 
   SegmentTree::~SegmentTree() {
-    if (size_ != 0) {
+    if (size_ > 0) {
       delete[] modification_;
       delete[] array_;
       delete[] tree_;
@@ -36,10 +38,10 @@ namespace itis {
 
   void SegmentTree::push_changes_(int vert) {
     if ((modification_[vert] != 0) || (vert * 2 + 2 < 4 * size_)) {
-      if (modification_[vert * 2 + 1] != 0) modification_[vert * 2 + 1] *= modification_[vert];
+      if (modification_[vert * 2 + 0] != 0) modification_[vert * 2 + 1] *= modification_[vert];
+      else  modification_[vert * 2 + 0] = modification_[vert];
+      if (modification_[vert * 2 + 1] != 0) modification_[vert * 2 + 2] *= modification_[vert];
       else  modification_[vert * 2 + 1] = modification_[vert];
-      if (modification_[vert * 2 + 2] != 0) modification_[vert * 2 + 2] *= modification_[vert];
-      else  modification_[vert * 2 + 2] = modification_[vert];
       
       tree_[vert] = tree_[vert] * modification_[vert];
       modification_[vert] = 0;
@@ -59,31 +61,30 @@ namespace itis {
 
     SegmentTree::push_changes_(vert);
     int m = (l + r) / 2;
-    SegmentTree::assign(l, m, val, vert * 2 + 1, lp, rp);
-    SegmentTree::assign(m + 1, r, val, vert * 2 + 2, lp, rp);
-    tree_[vert] = tree_[vert * 2 + 1] + tree_[vert * 2 + 2];
+    SegmentTree::assign(l, m, val, vert * 2 + 0, lp, rp);
+    SegmentTree::assign(m + 1, r, val, vert * 2 + 1, lp, rp);
+    tree_[vert] = tree_[vert * 2 + 0] + tree_[vert * 2 + 1];
   }
 
-  int SegmentTree::get_min(int l, int r, int lp, int rp) {
-    // TODO получение минимума на отрезке
-    //  мне кажется только границ поиска достаточно,
-    //  проверять не вышли ли мы за пределы можно с помощю фукции сайз и просто 0
-  }
+//  int SegmentTree::get_min(int l, int r, int lp, int rp) {
+//    // TODO получение минимума на отрезке
+//    //  мне кажется только границ поиска достаточно,
+//    //  проверять не вышли ли мы за пределы можно с помощю фукции сайз и просто 0
+//  }
 
-  int SegmentTree::get_max(int l, int r, int lp, int rp) {
-    // TODO получение максимума на отрезке
-  }
+//  int SegmentTree::get_max(int l, int r, int lp, int rp) {
+//    // TODO получение максимума на отрезке
+//  }
 
   int SegmentTree::get_sum(int vert, int lp, int rp, int l, int r) {
+    push_changes_(vert);
     if (l > r)
       return 0;
     if (l == lp && r == rp)
       return tree_[vert];
     int mp = (lp + rp) / 2;
-    int min_r = (r < mp) ? r : mp;
-    int max_l = (l > mp+1) ? l : mp+1;
-    return get_sum(vert*2, lp, mp, l, min_r) +
-           get_sum(vert*2+1, mp+1, rp, max_l, r);
+    return get_sum(vert * 2 + 0, lp, mp, l, (r < mp) ? r : mp) +
+           get_sum(vert * 2 + 1, mp + 1, rp, (l > mp + 1) ? l : mp + 1, r);
   }
 
   void SegmentTree::update(int vert, int lp, int rp, int index, int new_value) {

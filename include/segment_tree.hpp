@@ -1,3 +1,6 @@
+#include <vector>
+
+
 #pragma once
 
 // Заголовочный файл с объявлением структуры данных
@@ -28,9 +31,9 @@ namespace itis {
 
     ~SegmentTree();
 
-    int get_min(int l, int r, int lp, int rp);
+//    int get_min(int l, int r, int lp, int rp);
 
-    int get_max(int l, int r, int lp, int rp);
+//    int get_max(int l, int r, int lp, int rp);
 
     int get_sum(int vert, int tl, int tr, int lp, int rp);
 
