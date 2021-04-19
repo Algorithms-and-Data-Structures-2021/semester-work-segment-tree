@@ -39,9 +39,9 @@ namespace itis {
 
   void SegmentTree::push_changes_(int vert) {
     if ((modification_[vert] != 0) || (vert * 2 + 2 < 4 * size_)) {
-      if (modification_[vert * 2 + 0] != 0) modification_[vert * 2 + 1] *= modification_[vert];
+      if (modification_[vert * 2 + 0] != 0) modification_[vert * 2 + 0] *= modification_[vert];
       else  modification_[vert * 2 + 0] = modification_[vert];
-      if (modification_[vert * 2 + 1] != 0) modification_[vert * 2 + 2] *= modification_[vert];
+      if (modification_[vert * 2 + 1] != 0) modification_[vert * 2 + 1] *= modification_[vert];
       else  modification_[vert * 2 + 1] = modification_[vert];
       
       tree_[vert] = tree_[vert] * modification_[vert];
