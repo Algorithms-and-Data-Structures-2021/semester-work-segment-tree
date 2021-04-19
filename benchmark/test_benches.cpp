@@ -22,7 +22,7 @@ int main() {
   // Tip 2: для перевода строки в число можете использовать функцию stoi (string to integer)
   // работа с набором данных
   const auto path = string(kDatasetPath);
-  cout << "Path to the 'dataset/' folder: " << path + "database/insert/01/Random_100.csv"<< endl;
+  cout << "Path to the 'dataset/' folder: " << path + "/database/insert/01/Random_100.csv"<< endl;
 
   int trials = 10;
 
@@ -33,7 +33,6 @@ int main() {
   // как изнутри программы (std::chrono), так и сторонними утилитами
   for (int i = 0; i < trials; i++) {
     {
-      cout << "life is good" << endl;
       string line = "1";
       auto input_file = ifstream(path + "/database/insert/01/Random_100.csv");
 //
@@ -55,19 +54,20 @@ int main() {
       }
       SegmentTree sTree = SegmentTree(count, array);
       const auto time_point_before = chrono::steady_clock::now();
-//      cout << sTree.get_sum(0, 0, sTree.size() - 1, 0, sTree.size() - 1);
+      int value = sTree.get_sum(0, 0, sTree.size() - 1, 0, sTree.size() - 1);
+      cout << value << endl;
       const auto time_point_after = chrono::steady_clock::now();
       input_file.close();
       const auto time_diff = time_point_after - time_point_before;
-      const long time_elapsed_ns = chrono::duration_cast<chrono::nanoseconds>(time_diff).count();
+      const long long time_elapsed_ns = chrono::duration_cast<chrono::nanoseconds>(time_diff).count();
       cout << i << endl;
-      cout << "some_string" << endl;
-      cout << time_elapsed_ns << endl;
+      cout << endl;
+      cout << "time in nanosec  "  << time_elapsed_ns << endl;
       delete[] array;
     }
     cout << endl << endl;
   }
 //  cout << "Time elapsed (ns): " << summ/trials << '\n';
-//  -12618678560
+//  -556216064
   return 0;
 }

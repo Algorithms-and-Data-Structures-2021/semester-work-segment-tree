@@ -6,9 +6,10 @@ namespace itis {
   SegmentTree::SegmentTree(int size, int *array) {
     if (size > 0) {
         size_ = size;
-        array_ = array;
-        tree_ = new int[4 * size_ + 2];
-        modification_ = new int[4 * size_ + 2];
+        array_ = new int [size_];
+        std::copy(array, array + size, array_);
+        tree_ = new int[4 * size_ ];
+        modification_ = new int[4 * size_];
         SegmentTree::build_tree_(1, 0, size_ - 1);
       }
   }
