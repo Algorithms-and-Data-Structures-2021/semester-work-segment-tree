@@ -54,7 +54,7 @@ int main() {
       }
       SegmentTree sTree = SegmentTree(count, array);
       const auto time_point_before = chrono::steady_clock::now();
-      int value = sTree.get_sum(0, 0, sTree.size() - 1, 0, sTree.size() - 1);
+      int value = sTree.get_sum(1, 0, sTree.size() - 1, 0, sTree.size() - 1);
       cout << value << endl;
       const auto time_point_after = chrono::steady_clock::now();
       input_file.close();

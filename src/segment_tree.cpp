@@ -1,4 +1,5 @@
 #include "segment_tree.hpp"
+# include <iostream>
 
 namespace itis {
   // потом определимся с методом проталкивания модификации
@@ -8,7 +9,7 @@ namespace itis {
         size_ = size;
         array_ = new int [size_];
         std::copy(array, array + size, array_);
-        tree_ = new int[4 * size_ ];
+        tree_ = new int[4 * size_];
         modification_ = new int[4 * size_];
         SegmentTree::build_tree_(1, 0, size_ - 1);
       }
@@ -22,6 +23,7 @@ namespace itis {
       SegmentTree::build_tree_(vert * 2, lp, tm); //
       SegmentTree::build_tree_(vert * 2 + 1, tm + 1, rp);
       tree_[vert] = tree_[vert * 2] + tree_[vert * 2 + 1];
+      std::cout << vert << "  " << tree_[vert] << std::endl;
     }
   }
 
@@ -81,8 +83,10 @@ namespace itis {
     push_changes_(vert);
     if (l > r)
       return 0;
-    if (l == lp && r == rp)
+    if (l == lp && r == rp) {
+      std::cout << "out in sum, value " << vert << " = " << tree_[vert] << std::endl;
       return tree_[vert];
+    }
     int mp = (lp + rp) / 2;
     return get_sum(vert * 2 + 0, lp, mp, l, (r < mp) ? r : mp) +
            get_sum(vert * 2 + 1, mp + 1, rp, (l > mp + 1) ? l : mp + 1, r);
