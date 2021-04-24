@@ -7,13 +7,13 @@ namespace itis {
   SegmentTree::SegmentTree(int size, int *array) {
     if (size > 0) {
         size_ = size;
-        array_ = new int [size_];
-        std::copy(array, array + size, array_);
-        tree_ = new int[4 * size_];
-        modification_ = new int[4 * size_];
+        array_ = array;
+        tree_ = new int [4 * size_] {};
+        modification_ = new int [4 * size_] {};
         SegmentTree::build_tree_(1, 0, size_ - 1);
       }
   }
+
 
   void SegmentTree::build_tree_(int vert, int lp, int rp) {
     if (lp == rp) {
@@ -23,9 +23,9 @@ namespace itis {
       SegmentTree::build_tree_(vert * 2, lp, tm); //
       SegmentTree::build_tree_(vert * 2 + 1, tm + 1, rp);
       tree_[vert] = tree_[vert * 2] + tree_[vert * 2 + 1];
-      std::cout << vert << "  " << tree_[vert] << std::endl;
     }
   }
+
 
   SegmentTree::~SegmentTree() {
     if (size_ > 0) {
@@ -39,8 +39,11 @@ namespace itis {
     }
   }
 
+
   void SegmentTree::push_changes_(int vert) {
-    if ((modification_[vert] != 0) || (vert * 2 + 2 < 4 * size_)) {
+    if (size_ == 0) return;
+
+    if ((modification_[vert] != 0) && (vert * 2 + 2 < 4 * size_)) {
       if (modification_[vert * 2 + 0] != 0) modification_[vert * 2 + 0] *= modification_[vert];
       else  modification_[vert * 2 + 0] = modification_[vert];
       if (modification_[vert * 2 + 1] != 0) modification_[vert * 2 + 1] *= modification_[vert];
@@ -50,6 +53,7 @@ namespace itis {
       modification_[vert] = 0;
     }
   }
+
 
   void SegmentTree::assign(int l, int r, int val, int vert, int lp, int rp) {
     if (l >= lp && r <= rp) {
@@ -69,22 +73,38 @@ namespace itis {
     tree_[vert] = tree_[vert * 2 + 0] + tree_[vert * 2 + 1];
   }
 
-//  int SegmentTree::get_min(int l, int r, int lp, int rp) {
-//    // TODO получение минимума на отрезке
-//    //  мне кажется только границ поиска достаточно,
-//    //  проверять не вышли ли мы за пределы можно с помощю фукции сайз и просто 0
-//  }
 
-//  int SegmentTree::get_max(int l, int r, int lp, int rp) {
-//    // TODO получение максимума на отрезке
-//  }
+  int SegmentTree::get_min(int l, int r, int v, int tl, int tr) {
+    if ((l <= tl && tr <= r) && (tl == tr)) {
+      return tree_[tl];
+    }
+    if (tr < l || r < tl) {
+      return INT_MAX;
+    }
+
+    int tm = (tl + tr) / 2;
+    return std::min(get_min(l, r, v * 2 + 0, tl, tm), get_min(l, r, v * 2 + 1, tm + 1, tr));
+  }
+
+
+  int SegmentTree::get_max (int l, int r, int v, int tl, int tr) {
+    if ((l <= tl && tr <= r) && (tl == tr)) {
+      return tree_[tl];
+    }
+    if (tr < l || r < tl) {
+      return INT_MIN;
+    }
+    int tm = (tl + tr) / 2;
+    return std::max(get_max(l, r, v * 2 + 0, tl, tm), get_max(l, r, v * 2 + 1, tm + 1, tr));
+  }
+
 
   int SegmentTree::get_sum(int vert, int lp, int rp, int l, int r) {
     push_changes_(vert);
     if (l > r)
       return 0;
+
     if (l == lp && r == rp) {
-      std::cout << "out in sum, value " << vert << " = " << tree_[vert] << std::endl;
       return tree_[vert];
     }
     int mp = (lp + rp) / 2;
@@ -105,9 +125,14 @@ namespace itis {
     }
   }
 
-  [[maybe_unused]] int SegmentTree::size() const {
+  int SegmentTree::size() const {
     // [[maybe_unused]] - прикольная фишка, впервые увидел
     return size_;
+  }
+
+  void SegmentTree::print_tree() const {
+    for (int i = 0; i < size_ * 4; i++)
+      std::cout << i << "  " << tree_[i] << std::endl;
   }
 
 }  // namespace itis

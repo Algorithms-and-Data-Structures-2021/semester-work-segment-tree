@@ -23,7 +23,7 @@ class Creator:
         except FileExistsError:
             pass
         os.chdir("database")
-        folders1 = ['insert', 'remove', 'search']
+        folders1 = ['insert']
         folders2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '09', '10']
         amount = [100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000, 5000000]
         for a in folders1:
@@ -36,7 +36,7 @@ class Creator:
                 try:
                     os.mkdir(b)
                 except FileExistsError:
-                    pass
+                    continue
                 os.chdir(b)
                 for i in amount:
                     file_name = f"Random_{i}.csv"
