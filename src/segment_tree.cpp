@@ -1,5 +1,5 @@
 #include "segment_tree.hpp"
-# include <iostream>
+#include <iostream>
 
 namespace itis {
 
