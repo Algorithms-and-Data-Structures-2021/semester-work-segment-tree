@@ -1,9 +1,4 @@
-#include <vector>
-
-
 #pragma once
-
-// Заголовочный файл с объявлением структуры данных
 
 namespace itis {
 
@@ -39,4 +34,4 @@ namespace itis {
 
   };
 
-}  // namespace itis
+}
