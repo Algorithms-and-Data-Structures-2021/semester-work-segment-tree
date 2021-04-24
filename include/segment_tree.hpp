@@ -7,12 +7,8 @@
 
 namespace itis {
 
-  // Tip 1: объявите здесь необходимые структуры, функции, константы и прочее
-
-  // Пример: объявление константы времени компиляции в заголовочном файле
   inline constexpr auto kStringConstant = "Hello, stranger!";
 
-  // Пример: объявление структуры с полями и методами
   struct SegmentTree {
    private:
     int size_ {0};
@@ -41,7 +37,6 @@ namespace itis {
 
     int size() const;
 
-    void print_tree() const;
   };
 
 }  // namespace itis
