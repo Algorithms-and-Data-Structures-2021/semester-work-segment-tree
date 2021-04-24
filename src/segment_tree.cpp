@@ -2,7 +2,6 @@
 # include <iostream>
 
 namespace itis {
-  // потом определимся с методом проталкивания модификации
 
   SegmentTree::SegmentTree(int size, int *array) {
     if (size > 0) {
