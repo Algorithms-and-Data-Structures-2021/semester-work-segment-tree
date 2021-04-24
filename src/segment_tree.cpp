@@ -128,10 +128,5 @@ namespace itis {
     // [[maybe_unused]] - прикольная фишка, впервые увидел
     return size_;
   }
-
-  void SegmentTree::print_tree() const {
-    for (int i = 0; i < size_ * 4; i++)
-      std::cout << i << "  " << tree_[i] << std::endl;
-  }
-
+  
 }  // namespace itis
