@@ -19,7 +19,7 @@ namespace itis {
       tree_[vert] = array_[lp];
     } else {
       int tm = (lp + rp) / 2;
-      SegmentTree::build_tree_(vert * 2, lp, tm); //
+      SegmentTree::build_tree_(vert * 2, lp, tm);
       SegmentTree::build_tree_(vert * 2 + 1, tm + 1, rp);
       tree_[vert] = tree_[vert * 2] + tree_[vert * 2 + 1];
     }
@@ -125,8 +125,7 @@ namespace itis {
   }
 
   int SegmentTree::size() const {
-    // [[maybe_unused]] - прикольная фишка, впервые увидел
     return size_;
   }
   
-}  // namespace itis
+}
