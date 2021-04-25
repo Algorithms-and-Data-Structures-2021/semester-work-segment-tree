@@ -75,6 +75,7 @@ namespace itis {
 
 
   int SegmentTree::get_min(int l, int r, int v, int tl, int tr) {
+    push_changes_(v);
     if ((l <= tl && tr <= r) && (tl == tr)) {
       return tree_[tl];
     }
@@ -88,6 +89,7 @@ namespace itis {
 
 
   int SegmentTree::get_max (int l, int r, int v, int tl, int tr) {
+    push_changes_(v);
     if ((l <= tl && tr <= r) && (tl == tr)) {
       return tree_[tl];
     }
@@ -113,6 +115,7 @@ namespace itis {
   }
 
   void SegmentTree::update(int vert, int lp, int rp, int index, int new_value) {
+    push_changes_(vert);
     if (lp == rp)
       tree_[vert] = new_value;
     else {
@@ -121,6 +124,7 @@ namespace itis {
         update(vert * 2, lp, mp, index, new_value);
       else
         update(vert * 2 + 1, mp + 1, rp, index, new_value);
+
       tree_[vert] = tree_[vert * 2] + tree_[vert * 2 + 1];
     }
   }

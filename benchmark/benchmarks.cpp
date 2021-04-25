@@ -32,15 +32,60 @@ long long int *check_sum(string path, int count){
       }
     }
     SegmentTree sTree = SegmentTree(count, array);
-
+    int left = rand() % sTree.size();
+    int right = rand() % sTree.size();
+    if (left > right){
+      int m = left;
+      left = right;
+      right = m;
+    }
     const auto time_point_before = chrono::steady_clock::now();
-    sTree.get_sum(1, 0, sTree.size() - 1, 0, sTree.size() - 1);
+    sTree.get_sum(1, 0, sTree.size() - 1, left, right);
     const auto time_point_after = chrono::steady_clock::now();
 
     input_file.close();
     const auto time_diff = time_point_after - time_point_before;
     const long long time_elapsed_ns = chrono::duration_cast<chrono::nanoseconds>(time_diff).count();
-    time_list[i] = time_elapsed_ns/1000000;
+    time_list[i] = time_elapsed_ns/1000;
+  }
+  return time_list;
+}
+
+
+long long int *check_assign(string path, int count){
+  long long int *time_list = new long long int [10];
+  for (int i = 0; i < 10; i++) {
+    string line = "1";
+    auto input_file = ifstream(path);
+    int tmp = 0;
+    int *array = new int[count];
+    if (input_file) {
+      getline(input_file, line);
+      while (line != "") {
+        array[tmp] = stoi(line);
+        getline(input_file, line);
+        if (line == "") {
+          break;
+        }
+      }
+    }
+    SegmentTree sTree = SegmentTree(count, array);
+    int value = 2;
+    int left = rand() % sTree.size();
+    int right = rand() % sTree.size();
+    if (left > right){
+      int m = left;
+      left = right;
+      right = m;
+    }
+    const auto time_point_before = chrono::steady_clock::now();
+    sTree.assign(1, sTree.size() - 1, value, 1,  left, right);
+    const auto time_point_after = chrono::steady_clock::now();
+
+    input_file.close();
+    const auto time_diff = time_point_after - time_point_before;
+    const long long time_elapsed_ns = chrono::duration_cast<chrono::nanoseconds>(time_diff).count();
+    time_list[i] = time_elapsed_ns/1000;
   }
   return time_list;
 }
@@ -63,12 +108,12 @@ long long int *check_max(string path, int count){
         }}}
     SegmentTree sTree = SegmentTree(count, array);
     const auto time_point_before = chrono::steady_clock::now();
-    sTree.get_max(1, 0, sTree.size() - 1, 0, sTree.size() - 1);
+    sTree.get_max(1, sTree.size() - 1, 1, 1, sTree.size() - 1);
     const auto time_point_after = chrono::steady_clock::now();
     input_file.close();
     const auto time_diff = time_point_after - time_point_before;
     const long long time_elapsed_ns = chrono::duration_cast<chrono::nanoseconds>(time_diff).count();
-    time_list[i] = time_elapsed_ns;
+    time_list[i] = time_elapsed_ns/1000;
   }
   return time_list;
 }
@@ -91,12 +136,12 @@ long long int *check_min(string path, int count){
         }}}
     SegmentTree sTree = SegmentTree(count, array);
     const auto time_point_before = chrono::steady_clock::now();
-    sTree.get_min(1, 0, sTree.size() - 1, 0, sTree.size() - 1);
+    sTree.get_min(1, sTree.size() - 1, 1, 1, sTree.size() - 1);
     const auto time_point_after = chrono::steady_clock::now();
     input_file.close();
     const auto time_diff = time_point_after - time_point_before;
     const long long time_elapsed_ns = chrono::duration_cast<chrono::nanoseconds>(time_diff).count();
-    time_list[i] = time_elapsed_ns;
+    time_list[i] = time_elapsed_ns/1000;
   }
   return time_list;
 }
@@ -123,11 +168,39 @@ long long int *check_create_tree(string path, int count){
     input_file.close();
     const auto time_diff = time_point_after - time_point_before;
     const long long time_elapsed_ns = chrono::duration_cast<chrono::nanoseconds>(time_diff).count();
-    time_list[i] = time_elapsed_ns;
+    time_list[i] = time_elapsed_ns/1000;
   }
   return time_list;
 }
 
+long long int *check_update(string path, int count){
+  long long int *time_list = new long long int [10];
+  for (int i = 0; i < 10; i++) {
+    string line = "1";
+    auto input_file = ifstream(path);
+    int tmp = 0;
+    int *array = new int[count];
+    if (input_file) {
+      getline(input_file, line);
+      while (line != "") {
+        array[tmp] = stoi(line);
+        getline(input_file, line);
+        if (line == "") {
+          break;
+        }}}
+    SegmentTree sTree = SegmentTree(count, array);
+    const auto time_point_before = chrono::steady_clock::now();
+    for (int tmp1 = 0; tmp1 < count; tmp1++) {
+      sTree.update(1, 0, sTree.size() - 1, rand()%count, rand()%2147483647);
+    }
+    const auto time_point_after = chrono::steady_clock::now();
+    input_file.close();
+    const auto time_diff = time_point_after - time_point_before;
+    const long long time_elapsed_ns = chrono::duration_cast<chrono::nanoseconds>(time_diff).count();
+    time_list[i] = time_elapsed_ns/1000;
+  }
+  return time_list;
+}
 
 int main() {
 
@@ -135,7 +208,7 @@ int main() {
   const auto py_path = "python " + string(kProjectPath) + "/dataset/test_data.py";
   const string delimeter = "/";
   cout << "Run data_creator.py" << endl;
-  system(py_path.c_str());
+//  system(py_path.c_str());
   cout << endl << endl;
   cout << "Path to the 'dataset/' folder: " << string(kDatasetPath) << endl;
   cout << "Path to file: " << path_inputfile << endl;
@@ -196,6 +269,19 @@ int main() {
     int count = amount[j];
     for (string file_name : folders) {
       auto data_path = string(kDatasetPath) + "/database/insert/Random_" + file_name + ".csv";
+      long long int *time_list = check_assign(data_path, count);
+      for (int i = 0; i < 10; i++){
+        file <<"Assign" << delimeter << file_name + delimeter + to_string(count)
+                                     + delimeter
+                                     + to_string(i + 1) + delimeter << to_string(time_list[i]) << endl;
+      }
+    }
+  }
+
+  for (int j = 0; j < 10; j++) {
+    int count = amount[j];
+    for (string file_name : folders) {
+      auto data_path = string(kDatasetPath) + "/database/insert/Random_" + file_name + ".csv";
       long long int *time_list = check_min(data_path, count);
       for (int i = 0; i < 10; i++){
         file <<"Min" << delimeter << file_name + delimeter + to_string(count)
@@ -205,6 +291,18 @@ int main() {
     }
   }
 
+  for (int j = 0; j < 10; j++) {
+    int count = amount[j];
+    for (string file_name : folders) {
+      auto data_path = string(kDatasetPath) + "/database/insert/Random_" + file_name + ".csv";
+      long long int *time_list = check_update(data_path, count);
+      for (int i = 0; i < 10; i++){
+        file <<"Update" << delimeter << file_name + delimeter + to_string(count)
+                                     + delimeter
+                                     + to_string(i + 1) + delimeter << to_string(time_list[i]) << endl;
+      }
+    }
+  }
 
   return 0;
 }

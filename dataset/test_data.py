@@ -5,7 +5,6 @@ from random import randint
 
 MAXINT = 2147483647  # max integer value
 MININT = -MAXINT
-amount = 100
 
 
 class Creator:
