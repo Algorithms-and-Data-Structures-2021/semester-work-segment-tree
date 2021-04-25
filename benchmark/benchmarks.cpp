@@ -208,7 +208,7 @@ int main() {
   const auto py_path = "python " + string(kProjectPath) + "/dataset/test_data.py";
   const string delimeter = "/";
   cout << "Run data_creator.py" << endl;
-//  system(py_path.c_str());
+  system(py_path.c_str());
   cout << endl << endl;
   cout << "Path to the 'dataset/' folder: " << string(kDatasetPath) << endl;
   cout << "Path to file: " << path_inputfile << endl;
