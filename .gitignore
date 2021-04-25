@@ -36,3 +36,6 @@
 
 # Build files
 *build*
+
+#data
+dataset/data/database

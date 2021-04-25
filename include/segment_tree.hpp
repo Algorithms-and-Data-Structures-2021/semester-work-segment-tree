@@ -1,15 +1,9 @@
 #pragma once
 
-// Заголовочный файл с объявлением структуры данных
-
 namespace itis {
 
-  // Tip 1: объявите здесь необходимые структуры, функции, константы и прочее
-
-  // Пример: объявление константы времени компиляции в заголовочном файле
   inline constexpr auto kStringConstant = "Hello, stranger!";
 
-  // Пример: объявление структуры с полями и методами
   struct SegmentTree {
    private:
     int size_ {0};
@@ -21,16 +15,14 @@ namespace itis {
 
     void push_changes_(int vert);
 
-    // Tip 2: На начальном этапе разработки структуры данных можете определения методов задавать в
-    // заголовочном файле, как только работа будет завершена, можно будет оставить здесь только объявления.
    public:
     SegmentTree(int size, int *array);
 
     ~SegmentTree();
 
-    int get_min(int l, int r, int lp, int rp);
+    int get_min(int l, int r, int vert, int lp, int rp);
 
-    int get_max(int l, int r, int lp, int rp);
+    int get_max(int l, int r, int vert, int lp, int rp);
 
     int get_sum(int vert, int tl, int tr, int lp, int rp);
 
@@ -38,7 +30,8 @@ namespace itis {
 
     void assign(int l, int r, int val, int vert, int lp, int rp);
 
-    [[maybe_unused]] int size() const;
+    int size() const;
+
   };
 
-}  // namespace itis
+}
