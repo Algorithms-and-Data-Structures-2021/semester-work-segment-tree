@@ -1,10 +1,9 @@
-# Название семестровой работы
+# Segment Tree
 
 [![CMake](https://github.com/Algorithms-and-Data-Structures-2021/semester-work-template/actions/workflows/cmake.yml/badge.svg)](https://github.com/Algorithms-and-Data-Structures-2021/semester-work-template/actions/workflows/cmake.yml)
 
-**_Измените status badge сверху для отображения статуса сборки вашего проекта._**
 
-`Actions > CMake > ... > Create status badge`
+`Actions > CMake > ... > Complete`
 
 _Краткое описание семестрового проекта. Следует отразить информацию по следующим пунктам:_
 
@@ -21,12 +20,12 @@ _Краткое описание семестрового проекта. Сле
 
 | Фамилия Имя   | Вклад (%) | Прозвище              |
 | :---          |   ---:    |  ---:                 |
-| Алексей       | 33        |  Ramil fan #1   |
-| Даниил        | 33        |  Ramil fan #2   |
-| Эрика         | 33        |  Ramil fan #3   |
+| Алексей       | 33.(3)        |  Ramil fan #1   |
+| Даниил        | 33.(3)        |  Ramil fan #2   |
+| Эрика         | 33.(3)        |  Ramil fan #3   |
 
 **Девиз команды**
-> _Наши цели ясны. Задачи определены. За работу, товарищи!_
+> _Наш девиз слегка завис_
 
 ## Структура проекта
 
